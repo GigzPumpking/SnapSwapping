@@ -21,6 +21,7 @@ public class FPSController : MonoBehaviour
 
     CharacterController characterController;
     public ThrowableObject throwableComponent;
+    public Swapper s; 
 
     void Start()
     {
@@ -72,6 +73,10 @@ public class FPSController : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) // Assuming left mouse button for throwing
         {
             throwableComponent.Throw();
+        }
+        if (Input.GetMouseButtonDown(1)) // Assuming left mouse button for throwing
+        {
+            s.swap();
         }
     }
 }

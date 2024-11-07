@@ -5,7 +5,7 @@ public class ThrowableObject : MonoBehaviour
     public GameObject objectToThrow; // Prefab of the object to throw
     public float throwForce = 10.0f;
     public Vector3 spawnOffset = new Vector3(0, 0, 1);
-    private GameObject currentThrownObject;
+    public GameObject currentThrownObject;
     public Camera playerCamera; 
 
     public void Throw()
