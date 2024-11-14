@@ -77,7 +77,7 @@ public class FPSController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1)) // Assuming left mouse button for throwing
         {
-            s.swap();
+            s.Swap();
             handAnimator.SetTrigger("Snap");
         }
     }
