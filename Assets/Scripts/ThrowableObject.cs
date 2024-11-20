@@ -7,6 +7,7 @@ public class ThrowableObject : MonoBehaviour
     public Vector3 spawnOffset = new Vector3(0, 0, 1);
     public GameObject currentThrownObject;
     public Camera playerCamera; 
+    public Swapper swapping; 
 
     public void Throw()
     {
@@ -19,6 +20,7 @@ public class ThrowableObject : MonoBehaviour
         Vector3 spawnPosition = playerCamera.transform.position + playerCamera.transform.TransformDirection(spawnOffset);
         currentThrownObject = Instantiate(objectToThrow, spawnPosition, playerCamera.transform.rotation);
         Rigidbody rb = currentThrownObject.GetComponent<Rigidbody>();
+        swapping.UpdateThrownObject(currentThrownObject);
         if (rb != null)
         {
             rb.AddForce(playerCamera.transform.forward * throwForce, ForceMode.VelocityChange);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody))]
 public class FPSController : MonoBehaviour
 {
     public Camera playerCamera;
@@ -19,14 +19,15 @@ public class FPSController : MonoBehaviour
 
     public bool canMove = true;
 
-    CharacterController characterController;
+    Rigidbody rb;
     public ThrowableObject throwableComponent;
     public Swapper s; 
     public Animator handAnimator;
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true; // Ensures that the player's Rigidbody doesn't rotate unexpectedly
 
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
@@ -35,34 +36,34 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
-        //Handles Movement
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
-
-        //Press Left Shift to run
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-
-        //Handles Jumping
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+        if (canMove)
         {
-            moveDirection.y = jumpPower;
-        }
-        else
-        {
-            moveDirection.y = movementDirectionY;
-        }
+            // Handles Movement
+            Vector3 forward = transform.TransformDirection(Vector3.forward);
+            Vector3 right = transform.TransformDirection(Vector3.right);
 
-        if (!characterController.isGrounded)
-        {
+            // Press Left Shift to run
+            bool isRunning = Input.GetKey(KeyCode.LeftShift);
+            float curSpeedX = (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical");
+            float curSpeedY = (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal");
+        
+            Vector3 direction = forward * curSpeedX + right * curSpeedY;
+            moveDirection = new Vector3(direction.x, rb.linearVelocity.y, direction.z);
+
+            // Handles Jumping
+            if (Input.GetButtonDown("Jump") && IsGrounded())
+            {
+                moveDirection.y = jumpPower;
+            }
+
+            // Apply Gravity
             moveDirection.y -= gravity * Time.deltaTime;
+
+            // Apply Movement
+            rb.linearVelocity = moveDirection;
         }
 
-        //Handles Rotation
-        characterController.Move(moveDirection * Time.deltaTime);
+        // Handles Rotation
         if (canMove)
         {
             rotationX -= Input.GetAxis("Mouse Y") * lookSpeed;
@@ -75,10 +76,16 @@ public class FPSController : MonoBehaviour
         {
             throwableComponent.Throw();
         }
-        if (Input.GetMouseButtonDown(1)) // Assuming left mouse button for throwing
+        if (Input.GetMouseButtonDown(1))
         {
             s.Swap();
             handAnimator.SetTrigger("Snap");
         }
+    }
+
+    bool IsGrounded()
+    {
+        RaycastHit hit;
+        return Physics.Raycast(transform.position, Vector3.down, out hit, 1.1f);
     }
 }
