@@ -10,6 +10,10 @@ public class Swapper : MonoBehaviour
     private Vector3 player_velocity; 
     private Vector3 object_velocity;
 
+    private bool toSwap = false;
+
+    public AudioSource audioSource;
+
     public void Swap()
 {
     if (thrownObject != null && player != null)
@@ -35,6 +39,15 @@ public class Swapper : MonoBehaviour
 
         Debug.Log("Player position: " + player.transform.position);
         Debug.Log("Object position: " + thrownObject.transform.position);
+
+        if (!toSwap) {
+            toSwap = true;
+            AudioManager.Instance.PlaySound("SwapForward", audioSource);
+        }
+        else {
+            toSwap = false;
+            AudioManager.Instance.PlaySound("SwapBack", audioSource);
+        }
     }
     else
     {
@@ -44,5 +57,6 @@ public class Swapper : MonoBehaviour
 
     public void UpdateThrownObject(GameObject thrownObject){
         this.thrownObject = thrownObject;
+        toSwap = false;
     }
 }

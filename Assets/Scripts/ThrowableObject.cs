@@ -9,6 +9,8 @@ public class ThrowableObject : MonoBehaviour
     public Camera playerCamera; 
     public Swapper swapping; 
 
+    public AudioSource audioSource;
+
     public void Throw()
     {
         // Destroy the existing object if it exists
@@ -25,5 +27,7 @@ public class ThrowableObject : MonoBehaviour
         {
             rb.AddForce(playerCamera.transform.forward * throwForce, ForceMode.VelocityChange);
         }
+
+        AudioManager.Instance.PlaySound("Throw", audioSource);
     }
 }
