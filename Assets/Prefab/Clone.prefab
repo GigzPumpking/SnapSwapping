@@ -119,7 +119,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6799162305649443389}
-  - component: {fileID: 3150566065734457220}
+  - component: {fileID: 3315437394496516971}
   m_Layer: 0
   m_Name: Clone
   m_TagString: Clone
@@ -143,7 +143,7 @@ Transform:
   - {fileID: 8987950006115108941}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &3150566065734457220
+--- !u!54 &3315437394496516971
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
