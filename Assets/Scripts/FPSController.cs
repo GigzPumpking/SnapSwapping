@@ -63,14 +63,10 @@ public class FPSController : MonoBehaviour
             rb.linearVelocity = moveDirection;
         }
 
-        // Handles Rotation
-        if (canMove)
-        {
-            rotationX -= Input.GetAxis("Mouse Y") * lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        }
+        rotationX -= Input.GetAxis("Mouse Y") * lookSpeed;
+        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
 
         if (Input.GetMouseButtonDown(0)) // Assuming left mouse button for throwing
         {
@@ -87,5 +83,10 @@ public class FPSController : MonoBehaviour
     {
         RaycastHit hit;
         return Physics.Raycast(transform.position, Vector3.down, out hit, 1.1f);
+    }
+
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
     }
 }
