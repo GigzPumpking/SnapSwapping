@@ -12,16 +12,17 @@ public class FPSController : MonoBehaviour
     public float gravity = 10.0f;
 
     public float lookSpeed = 2.0f;
-    public float lookXLimit = 45.0f;
+    public float lookXLimit = 90.0f; // Allow looking straight up and down
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
     public bool canMove = true;
+    private bool canThrow = true;
 
     Rigidbody rb;
     public ThrowableObject throwableComponent;
-    public Swapper s; 
+    public Swapper s;
     public Animator handAnimator;
 
     void Start()
@@ -46,7 +47,7 @@ public class FPSController : MonoBehaviour
             bool isRunning = Input.GetKey(KeyCode.LeftShift);
             float curSpeedX = (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical");
             float curSpeedY = (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal");
-        
+
             Vector3 direction = forward * curSpeedX + right * curSpeedY;
             moveDirection = new Vector3(direction.x, rb.linearVelocity.y, direction.z);
 
@@ -68,9 +69,15 @@ public class FPSController : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
         transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
 
-        if (Input.GetMouseButtonDown(0)) // Assuming left mouse button for throwing
+        if (IsGrounded())
+        {
+            canThrow = true;
+        }
+
+        if (Input.GetMouseButtonDown(0) && canThrow) // Assuming left mouse button for throwing
         {
             throwableComponent.Throw();
+            canThrow = false;
         }
         if (Input.GetMouseButtonDown(1))
         {
@@ -83,6 +90,14 @@ public class FPSController : MonoBehaviour
     {
         RaycastHit hit;
         return Physics.Raycast(transform.position, Vector3.down, out hit, 1.1f);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            canThrow = true;
+        }
     }
 
     public void SetCanMove(bool value)
