@@ -8,6 +8,8 @@ public class UntouchableGround : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            //stop velocity and teleport player to target location
+            collision.gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             collision.gameObject.transform.position = teleportTarget.position;
         }
     }

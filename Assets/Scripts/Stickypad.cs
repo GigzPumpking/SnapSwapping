@@ -3,14 +3,10 @@ using UnityEngine;
 public class Stickypad : MonoBehaviour
 {
     [SerializeField] private bool ignorePlayer = false;
-
     [SerializeField] private bool ignoreThrowable = false;
-
     private AudioSource audioSource;
-
-    // Causing the object to stick to the pad
-
     [SerializeField] private bool debug = false;
+    private bool audioPlayed = false; // Add this line
 
     private void Awake()
     {
@@ -19,14 +15,7 @@ public class Stickypad : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Rigidbody rb;
-
-        if (debug) {
-            Debug.Log("Object entered the stickypad");
-        }
-
         // Send the object upwards, if the object is the player, check if ignorePlayer is false in order to send the player upwards
-
         if (other.gameObject.CompareTag("Player"))
         {
             if (ignorePlayer)
@@ -43,16 +32,20 @@ public class Stickypad : MonoBehaviour
             return;
         }
 
+        Rigidbody rb;
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Clone"))
         {
             rb = other.gameObject.transform.parent.GetComponent<Rigidbody>();
-        } else {
+        }
+        else
+        {
             rb = other.gameObject.GetComponent<Rigidbody>();
         }
 
         if (rb != null)
         {
-            if (debug) {
+            if (debug)
+            {
                 Debug.Log("Object is a rigidbody");
             }
             rb.linearVelocity = Vector3.zero;
@@ -60,36 +53,28 @@ public class Stickypad : MonoBehaviour
             rb.useGravity = false;
             rb.isKinematic = true;
 
-            AudioManager.Instance.PlaySound("Stickypad", audioSource);
+            if (!audioPlayed) // Add this condition
+            {
+                AudioManager.Instance.PlaySound("Stickypad", audioSource);
+                audioPlayed = true; // Set the flag to true
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         Rigidbody rb;
-        if (debug) {
+        if (debug)
+        {
             Debug.Log("Object exited the stickypad");
-        }
-
-        if (other.gameObject.CompareTag("Player"))
-        {
-            if (ignorePlayer)
-            {
-                return;
-            }
-
-            other.gameObject.transform.parent.GetComponent<FPSController>().SetCanMove(true);
-        }
-
-        if (other.gameObject.CompareTag("Clone") && ignoreThrowable)
-        {
-            return;
         }
 
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Clone"))
         {
             rb = other.gameObject.transform.parent.GetComponent<Rigidbody>();
-        } else {
+        }
+        else
+        {
             rb = other.gameObject.GetComponent<Rigidbody>();
         }
 
@@ -98,5 +83,7 @@ public class Stickypad : MonoBehaviour
             rb.useGravity = true;
             rb.isKinematic = false;
         }
+
+        audioPlayed = false; // Reset the flag when the object exits
     }
 }
