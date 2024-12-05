@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
             RestartGame();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             QuitGame();
         }
