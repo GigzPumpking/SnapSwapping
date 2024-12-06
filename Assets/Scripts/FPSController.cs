@@ -33,6 +33,8 @@ public class FPSController : MonoBehaviour
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        GameManager.Instance.SetPlayer(this);
     }
 
     void Update()
@@ -81,9 +83,12 @@ public class FPSController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-            s.Swap();
             handAnimator.SetTrigger("Snap");
         }
+    }
+
+    public void Swap() {
+        s.Swap();
     }
 
     bool IsGrounded()

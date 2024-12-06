@@ -5,6 +5,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] private FPSController player;
+
     private void Awake()
     {
         if (Instance == null)
@@ -38,5 +40,15 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void SetPlayer(FPSController player)
+    {
+        this.player = player;
+    }
+
+    public FPSController GetPlayer()
+    {
+        return player;
     }
 }
