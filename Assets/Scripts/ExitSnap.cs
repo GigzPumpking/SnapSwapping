@@ -6,5 +6,6 @@ public class ExitSnap : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         GameManager.Instance.GetPlayer().Swap();
+        GameManager.Instance.GetPlayer().particleSystem.Stop();
     }
 }

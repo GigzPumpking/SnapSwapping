@@ -25,6 +25,8 @@ public class FPSController : MonoBehaviour
     public Swapper s;
     public Animator handAnimator;
 
+    public ParticleSystem particleSystem;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,6 +37,7 @@ public class FPSController : MonoBehaviour
         Cursor.visible = false;
 
         GameManager.Instance.SetPlayer(this);
+        particleSystem.Stop();
     }
 
     void Update()
@@ -84,6 +87,7 @@ public class FPSController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             handAnimator.SetTrigger("Snap");
+            particleSystem.Play();
         }
     }
 
