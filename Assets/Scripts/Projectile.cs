@@ -5,7 +5,6 @@ public class Projectile : MonoBehaviour
     public float speed = 10f;  // Speed of the projectile
     public float lifeTime = 5f; // Time before the projectile disappears
     public Transform player;  // Reference to the player's transform
-
     private void Start()
     {
         if (player == null)
@@ -40,7 +39,7 @@ public class Projectile : MonoBehaviour
         {
             // Handle damage or effects here
             Debug.Log("Projectile hit the player!");
-
+            player.position = new Vector3((float)7.43, (float)2.19, (float)-88.63);
             // Destroy the projectile after hitting the player
             Destroy(gameObject);
         }
