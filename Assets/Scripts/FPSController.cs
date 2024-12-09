@@ -79,11 +79,6 @@ public class FPSController : MonoBehaviour
             canThrow = true;
         }
 
-        if (Input.GetMouseButtonDown(0) && canThrow) // Assuming left mouse button for throwing
-        {
-            throwableComponent.Throw();
-            canThrow = false;
-        }
         if (Input.GetMouseButtonDown(1))
         {
             handAnimator.SetTrigger("Snap");
