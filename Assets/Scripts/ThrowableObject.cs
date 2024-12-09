@@ -19,6 +19,7 @@ public class ThrowableObject : MonoBehaviour
     public float minThrowForce = 5.0f;
     public float maxThrowForce = 50.0f;
     public int trajectoryResolution = 1000;
+    public Vector3 visualizerOffset = new Vector3(0.5f, -0.5f, 0);
 
     void Start()
     {
@@ -47,7 +48,7 @@ public class ThrowableObject : MonoBehaviour
     private void ShowThrowVisualizer()
     {
         lineRenderer.enabled = true;
-        Vector3 spawnPosition = playerCamera.transform.position + playerCamera.transform.TransformDirection(spawnOffset);
+        Vector3 spawnPosition = playerCamera.transform.position + playerCamera.transform.TransformDirection(spawnOffset) + playerCamera.transform.TransformDirection(visualizerOffset);
         Vector3 direction = playerCamera.transform.forward;
         float currentThrowForce = Mathf.Lerp(minThrowForce, maxThrowForce, chargeTime / maxChargeTime);
         Vector3 velocity = direction * currentThrowForce;
