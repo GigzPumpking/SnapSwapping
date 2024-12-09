@@ -19,6 +19,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        if (AudioManager.Instance != null && !AudioManager.Instance.IsMusicPlaying("Music"))
+        {
+            AudioManager.Instance.PlayMusic("Music");
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))

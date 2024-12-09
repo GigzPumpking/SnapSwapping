@@ -21,7 +21,7 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void PlaySound(string name, AudioSource source)
+    public void PlaySound(string name, AudioSource source = null)
     {
         Sound s = System.Array.Find(sounds, sound => sound.name == name);
 
@@ -52,13 +52,6 @@ public class AudioManager : MonoBehaviour
         if (s == null)
             return;
         else {
-            // if clip is Retro Music, change volume to 0.5f
-            if (s.name == "Retro Music" || s.name == "PortalLevel") {
-                musicSource.volume = 0.4f;
-            }
-            else {
-                musicSource.volume = 1f;
-            }
             musicSource.clip = s.clip;
             musicSource.Play();
         }

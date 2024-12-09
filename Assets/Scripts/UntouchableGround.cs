@@ -11,6 +11,9 @@ public class UntouchableGround : MonoBehaviour
             //stop velocity and teleport player to target location
             collision.gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             collision.gameObject.transform.position = teleportTarget.position;
+
+            //play sound effect
+            AudioManager.Instance.PlaySound("Hurt");
         }
     }
 }

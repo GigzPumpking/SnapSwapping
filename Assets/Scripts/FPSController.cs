@@ -26,9 +26,11 @@ public class FPSController : MonoBehaviour
     public Animator handAnimator;
 
     public ParticleSystem particleSystem;
-
-    [SerializeField] private KeyCode throwKey = KeyCode.F;
     [SerializeField] private KeyCode swapKey = KeyCode.E;
+
+    [SerializeField] private Transform spawnPoint;
+
+    [SerializeField] private bool enableSpawnPoint = false;
 
     void Start()
     {
@@ -41,6 +43,11 @@ public class FPSController : MonoBehaviour
 
         GameManager.Instance.SetPlayer(this);
         particleSystem.Stop();
+
+        if (enableSpawnPoint)
+        {
+            transform.position = spawnPoint.position;
+        }
     }
 
     void Update()
@@ -77,16 +84,6 @@ public class FPSController : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
         transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
 
-        if (IsGrounded())
-        {
-            canThrow = true;
-        }
-
-        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(throwKey)) && canThrow) // Assuming left mouse button for throwing
-        {
-            throwableComponent.Throw();
-            canThrow = false;
-        }
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(swapKey))
         {
             handAnimator.SetTrigger("Snap");
@@ -115,5 +112,10 @@ public class FPSController : MonoBehaviour
     public void SetCanMove(bool value)
     {
         canMove = value;
+    }
+
+    public bool GetCanThrow()
+    {
+        return canThrow;
     }
 }

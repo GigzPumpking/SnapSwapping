@@ -13,6 +13,8 @@ public class PressurePlate : MonoBehaviour
 
     [SerializeField] private Door door; // Reference to the door that the pressure plate controls
 
+    [SerializeField] private ProjPlate projPlate;
+
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -31,6 +33,11 @@ public class PressurePlate : MonoBehaviour
             if (door != null)
                 door.Open();
 
+            if (projPlate != null)
+            {
+                projPlate.StartSpawning();
+            }
+
         }
         else if (colliders.Length == 0 && isPressed)
         {
@@ -40,6 +47,11 @@ public class PressurePlate : MonoBehaviour
             
             if (door != null)
                 door.Close();
+
+            if (projPlate != null)
+            {
+                projPlate.StopSpawning();
+            }
         }
     }
 
@@ -48,5 +60,10 @@ public class PressurePlate : MonoBehaviour
         // Visualize the overlap box in the scene view for easier debugging
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(transform.position + boxOffset, overlapBoxSize);
+    }
+
+    public bool IsPressed()
+    {
+        return isPressed;
     }
 }

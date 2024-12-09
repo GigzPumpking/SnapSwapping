@@ -20,6 +20,7 @@ public class ThrowableObject : MonoBehaviour
     public float maxThrowForce = 50.0f;
     public int trajectoryResolution = 1000;
     public Vector3 visualizerOffset = new Vector3(0.5f, -0.5f, 0);
+    [SerializeField] private KeyCode throwKey = KeyCode.F;
 
     void Start()
     {
@@ -32,12 +33,12 @@ public class ThrowableObject : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if ((Input.GetMouseButton(0) || Input.GetKey(throwKey)))
         {
             chargeTime += Time.deltaTime;
             ShowThrowVisualizer();
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(throwKey))
         {
             HideThrowVisualizer();
             Throw();
