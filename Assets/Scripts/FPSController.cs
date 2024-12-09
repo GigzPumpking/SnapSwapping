@@ -27,6 +27,9 @@ public class FPSController : MonoBehaviour
 
     public ParticleSystem particleSystem;
 
+    [SerializeField] private KeyCode throwKey = KeyCode.F;
+    [SerializeField] private KeyCode swapKey = KeyCode.E;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -79,12 +82,12 @@ public class FPSController : MonoBehaviour
             canThrow = true;
         }
 
-        if (Input.GetMouseButtonDown(0) && canThrow) // Assuming left mouse button for throwing
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(throwKey)) && canThrow) // Assuming left mouse button for throwing
         {
             throwableComponent.Throw();
             canThrow = false;
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(swapKey))
         {
             handAnimator.SetTrigger("Snap");
             particleSystem.Play();

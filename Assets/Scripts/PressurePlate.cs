@@ -11,6 +11,8 @@ public class PressurePlate : MonoBehaviour
 
     [SerializeField] private bool isPressed = false; // Tracks the current state of the pressure plate
 
+    [SerializeField] private Door door; // Reference to the door that the pressure plate controls
+
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -26,6 +28,8 @@ public class PressurePlate : MonoBehaviour
             // If objects are detected and the plate is not pressed, trigger "Press"
             animator.SetTrigger("Press");
             isPressed = true;
+            if (door != null)
+                door.Open();
 
         }
         else if (colliders.Length == 0 && isPressed)
@@ -33,6 +37,9 @@ public class PressurePlate : MonoBehaviour
             // If no objects are detected and the plate is pressed, trigger "Unpress"
             animator.SetTrigger("Unpress");
             isPressed = false;
+            
+            if (door != null)
+                door.Close();
         }
     }
 
